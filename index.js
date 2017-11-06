@@ -43,7 +43,7 @@ app.post('/webhook/', function (req, res) {
 		    	continue
 		    }
 			if (text === 'Blague') {
-			    sendTextMessage(sender, "C'est l'histoire d'une plante qui se balade en forêt et elle s'encouble et se plante. (haha)")
+			    sendTextMessage(sender, "C'est l'histoire d'une plante qui se balade tête en l'air comme elle est. Sans le voir venir, elle s'encouble et se plante.")
 		    	continue
 		    }
 			if (text === 'Humidité') {
