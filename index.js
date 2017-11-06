@@ -42,6 +42,14 @@ app.post('/webhook/', function (req, res) {
 			    sendGenericMessage(sender)
 		    	continue
 		    }
+			if (text === 'Blague') {
+			    sendTextMessage(sender, "C'est l'histoire d'une plante qui se balade en forêt et elle s'encouble et se plante. (haha)")
+		    	continue
+		    }
+			if (text === 'Humidité') {
+			    sendTextMessage(sender, "Humidité 47%, j'ai pas encore soif!")
+		    	continue
+		    }
 		    sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200))
 	    }
     }
