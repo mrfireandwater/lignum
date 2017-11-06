@@ -1,0 +1,20 @@
+suivre https://github.com/jw84/messenger-bot-tutorial jusqu'à (7)
+	le git push heroku marche pas car il n'y a pas de key ssh
+	et l'app heroku n'est pas encore une remote app. Il faut faire : (utiliser git bash pour windows)
+
+	heroku keys ou heroku keys:add et il propose de générer des clés.
+ensuite
+	heroku git:remote -a lignum
+où lignum est le nom de l'app heroku.
+ensuite il nous demande de nous connecter à git.heroku.com
+Il faut laisser blanc l'identifiant et mettre le token heroku en password.
+Pour connaitre ce token :
+	heroku auth:token
+Ensuite il process
+ça devrait être bon et on peu continuer
+
+Aller dans l'app facebook et ajouter un webhook. Mettre l'adresse :
+	https://lignum.herokuapp.com/webhook
+pour le token, il faut mettre le meme que dans le fichier index.js! c'est :
+	my_voice_is_my_password_verify_me
+ensuite sélectionner toutes les options et ouala! faire ok et c'est bon :-)
