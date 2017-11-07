@@ -56,6 +56,36 @@ app.post('/webhook/', function (req, res) {
     res.sendStatus(200)
 })
 
+app.post('/webhook/', function (req, res) {
+    let messaging_events = req.body.entry[0].messaging
+    for (let i = 0; i < messaging_events.length; i++) {
+      let event = req.body.entry[0].messaging[i]
+      let sender = event.sender.id
+      if (event.message && event.message.text) {
+  	    let text = event.message.text
+  	    if (text === 'Generic') {
+  		    sendGenericMessage(sender)
+  		    continue
+  	    }
+			if (text === 'Blague') {
+			    sendTextMessage(sender, "C'est l'histoire d'une plante qui se balade tête en l'air comme elle est. Sans le voir venir, elle s'encouble et se plante.")
+		    	continue
+		    }
+			if (text === 'Humidité') {
+			    sendTextMessage(sender, "Humidité 47%, j'ai pas encore soif!")
+		    	continue
+		    }
+  	    sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200))
+      }
+      if (event.postback) {
+  	    let text = JSON.stringify(event.postback)
+  	    sendTextMessage(sender, "Postback received: "+text.substring(0, 200), token)
+  	    continue
+      }
+    }
+    res.sendStatus(200)
+  })
+
 function sendTextMessage(sender, text) {
     let messageData = { text:text }
     request({

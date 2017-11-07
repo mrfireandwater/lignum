@@ -19,8 +19,17 @@ pour le token, il faut mettre le meme que dans le fichier index.js! c'est :
 	my_voice_is_my_password_verify_me
 ensuite sélectionner toutes les options et ouala! faire ok et c'est bon :-)
 ----------------
+une fois le serveur en ligne, exécuter :
+	curl -X POST "https://graph.facebook.com/v2.6/me/subscribed_apps?access_token=EAAcAbgtQhBcBAOY15fGXJH3FTocuzhDwZA8RJZCpuTPjoZCzFfDHZAtgzAfxaAxGVLyirj7W05ELfmYe7Qfkk9i7WZALWZB67YCi9ZCs74JzvBQqOGWB0C2lx3HKsD8JCMfzVIcxFHrMqWFtStyxuZCV7Q3rQ0ZB4BXhwWiXt8T3HngCfeFkLZBECH"
+avec la grande chaine de caractère qui est le token d'identification facebook pour Lignum
+----------------
 git add .
 cela ajoute les nouveaux fichier (je crois)
 puis git commit -m "describe update"
 git push heroku master
 ---------------
+Procédure pour mettre à jour le serveur :
+	git add .
+	git commit -m "describe update"
+	git push heroku master
+--------------
