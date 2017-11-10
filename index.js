@@ -13,18 +13,6 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const app = express() // Create a new instance of express
 
-// Tell express to use the body-parser middleware and to not parse extended bodies
-app.use(bodyParser.urlencoded({ extended: false }))
- 
-// Route that receives a POST request to /sms
-app.post('/sendData', function (req, res) {
-  const body = req.body.Body
-  res.set('Content-Type', 'text/plain')
-  //res.send(`You sent: ${body} to Express`)
-  sendTextMessage(loicsender, "you sent : ${body}")
-})
-
-
 app.set('port', (process.env.PORT || 5000))
 
 // Process application/x-www-form-urlencoded
@@ -150,5 +138,13 @@ function sendGenericMessage(sender) {
 	    }
     })
 }
+
+// Route that receives a POST request to /sms
+app.post('/sendData', function (req, res) {
+  const body = req.body.Body
+  res.set('Content-Type', 'text/plain')
+  //res.send(`You sent: ${body} to Express`)
+  sendTextMessage(loicsender, "you sent : ${body}")
+})
 
 const token = "EAAcAbgtQhBcBAOY15fGXJH3FTocuzhDwZA8RJZCpuTPjoZCzFfDHZAtgzAfxaAxGVLyirj7W05ELfmYe7Qfkk9i7WZALWZB67YCi9ZCs74JzvBQqOGWB0C2lx3HKsD8JCMfzVIcxFHrMqWFtStyxuZCV7Q3rQ0ZB4BXhwWiXt8T3HngCfeFkLZBECH"
