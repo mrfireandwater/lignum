@@ -32,6 +32,14 @@ app.get('/loic', function (req, res) {
 	sendTextMessage(loicsender, "loic here")
 })
 
+// Route that receives a POST request to /sms
+app.get('/sendData', function (req, res) {
+  const body = req.body.Body
+  res.set('Content-Type', 'text/plain')
+  //res.send(`You sent: ${body} to Express`)
+  sendTextMessage(loicsender, "you sent : ${body}")
+})
+
 // for Facebook verification
 app.get('/webhook/', function (req, res) {
 	if (req.query['hub.verify_token'] === 'my_voice_is_my_password_verify_me') {
@@ -138,13 +146,5 @@ function sendGenericMessage(sender) {
 	    }
     })
 }
-
-// Route that receives a POST request to /sms
-app.post('/sendData', function (req, res) {
-  const body = req.body.Body
-  res.set('Content-Type', 'text/plain')
-  //res.send(`You sent: ${body} to Express`)
-  sendTextMessage(loicsender, "you sent : ${body}")
-})
 
 const token = "EAAcAbgtQhBcBAOY15fGXJH3FTocuzhDwZA8RJZCpuTPjoZCzFfDHZAtgzAfxaAxGVLyirj7W05ELfmYe7Qfkk9i7WZALWZB67YCi9ZCs74JzvBQqOGWB0C2lx3HKsD8JCMfzVIcxFHrMqWFtStyxuZCV7Q3rQ0ZB4BXhwWiXt8T3HngCfeFkLZBECH"
