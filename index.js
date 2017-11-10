@@ -5,6 +5,9 @@ const bodyParser = require('body-parser')
 const request = require('request')
 const app = express()
 
+// loic constants
+let loicsender
+
 app.set('port', (process.env.PORT || 5000))
 
 // Process application/x-www-form-urlencoded
@@ -16,6 +19,12 @@ app.use(bodyParser.json())
 // Index route
 app.get('/', function (req, res) {
 	res.send('Hello world, I am a chat bot')
+})
+
+// loic test requests and anwsers
+app.get('/loic', function (req, res) {
+	res.send('loic here')
+	sendTextMessage(loicsender, "loic here")
 })
 
 // for Facebook verification
@@ -36,6 +45,7 @@ app.post('/webhook/', function (req, res) {
     for (let i = 0; i < messaging_events.length; i++) {
 	    let event = req.body.entry[0].messaging[i]
 	    let sender = event.sender.id
+		loicsender = sender
 	    if (event.message && event.message.text) {
 		    let text = event.message.text
 		    if (text === 'Generic') {
@@ -55,36 +65,6 @@ app.post('/webhook/', function (req, res) {
     }
     res.sendStatus(200)
 })
-
-app.post('/webhook/', function (req, res) {
-    let messaging_events = req.body.entry[0].messaging
-    for (let i = 0; i < messaging_events.length; i++) {
-      let event = req.body.entry[0].messaging[i]
-      let sender = event.sender.id
-      if (event.message && event.message.text) {
-  	    let text = event.message.text
-  	    if (text === 'Generic') {
-  		    sendGenericMessage(sender)
-  		    continue
-  	    }
-			if (text === 'Blague') {
-			    sendTextMessage(sender, "C'est l'histoire d'une plante qui se balade tête en l'air comme elle est. Sans le voir venir, elle s'encouble et se plante.")
-		    	continue
-		    }
-			if (text === 'Humidité') {
-			    sendTextMessage(sender, "Humidité 47%, j'ai pas encore soif!")
-		    	continue
-		    }
-  	    sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200))
-      }
-      if (event.postback) {
-  	    let text = JSON.stringify(event.postback)
-  	    sendTextMessage(sender, "Postback received: "+text.substring(0, 200), token)
-  	    continue
-      }
-    }
-    res.sendStatus(200)
-  })
 
 function sendTextMessage(sender, text) {
     let messageData = { text:text }
