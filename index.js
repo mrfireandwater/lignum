@@ -42,11 +42,12 @@ function forwardMessageToFacebook(sender, text) {
 
 // Route that receives a POST request to /sms
 app.post('/senddata/', function (req, res) {
-  const body = req.body.Body
-  res.set('Content-Type', 'text/plain')
-  res.send('You sent: '+body.text+' to Express')
-  sendTextMessage(loicsender, "msg from esp32")
-  forwardMessageToFacebook(loicsender, "forwardMessageToFacebook")
+	sendTextMessage(loicsender, "msg from esp32")
+    forwardMessageToFacebook(loicsender, "forwardMessageToFacebook")
+    const body = req.body.Body
+    res.set('Content-Type', 'text/plain')
+    res.send('You sent: '+body.text+' to Express')
+
 })
 
 // for Facebook verification
