@@ -31,6 +31,7 @@ app.get('/loic', function (req, res) {
 app.get('/senddata/', function (req, res) {
 	const body = req.body.Body
 	res.send("senddata here")
+	console.log(body)
 	sendTextMessage(loicsender, "msg from esp32")
 })
 
