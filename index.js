@@ -45,7 +45,9 @@ app.post('/senddata/', function (req, res) {
   const body = req.body.Body
   res.set('Content-Type', 'text/plain')
   res.send(`You sent: `+body.text+` to Express`)
+  sendGenericMessage(loicsender)
   sendTextMessage(loicsender, "msg from esp32")
+  forwardMessageToFacebook(loicsender, "forwardMessageToFacebook")
 })
 
 // for Facebook verification
