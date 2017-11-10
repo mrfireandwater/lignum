@@ -26,7 +26,7 @@ app.get('/loic', function (req, res) {
 	res.send('loic here')
 	sendTextMessage(loicsender, "loic here")
 })
-/*
+
 // Route that receives a POST request to /senddata
 app.get('/senddata/', function (req, res) {
   const body = req.body.Body
@@ -34,7 +34,7 @@ app.get('/senddata/', function (req, res) {
   res.send('you sent : ${body}')
   sendTextMessage(loicsender, "you sent : ${body}")
 })
-*/
+
 // for Facebook verification
 app.get('/webhook/', function (req, res) {
 	if (req.query['hub.verify_token'] === 'my_voice_is_my_password_verify_me') {
