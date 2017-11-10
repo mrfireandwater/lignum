@@ -38,7 +38,7 @@ app.get('/senddata/', function (req, res) {
 app.post('/senddata/', function (req, res) {
   const body = req.body.Body
   res.set('Content-Type', 'text/plain')
-  res.send(`You sent: `+body+` to Express`)
+  res.send(`You sent: `+body.text+` to Express`)
 })
 
 // for Facebook verification
