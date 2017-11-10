@@ -29,15 +29,16 @@ app.get('/loic', function (req, res) {
 
 // Route that receives a POST request to /senddata
 app.get('/senddata/', function (req, res) {
-  const body = req.body.Body
-  sendTextMessage(loicsender, "you sent : ${body}")
+	const body = req.body.Body
+	res.send("senddata here")
+	sendTextMessage(loicsender, "msg from esp32")
 })
 
 // Route that receives a POST request to /sms
 app.post('/senddata/', function (req, res) {
   const body = req.body.Body
   res.set('Content-Type', 'text/plain')
-  res.send(`You sent: ${body} to Express`)
+  res.send(`You sent: `+body+` to Express`)
 })
 
 // for Facebook verification
