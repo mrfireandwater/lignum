@@ -75,6 +75,10 @@ app.post('/webhook/', function (req, res) {
 			    sendGenericMessage(sender)
 		    	continue
 		    }
+			if (text === 'GIF') {
+			    sendMedia(sender)
+		    	continue
+		    }
 			if (text === 'Blague') {
 			    sendTextMessage(sender, "C'est l'histoire d'une plante qui se balade tête en l'air comme elle est. Sans le voir venir, elle s'encouble et se plante.")
 		    	continue
@@ -84,7 +88,7 @@ app.post('/webhook/', function (req, res) {
 		    	continue
 		    }
 			//Default message
-		    sendTextMessage(sender, "Ask me those things: \nBlague \nGeneric \nHumidité")
+		    sendTextMessage(sender, "Simple lignum responds to simple message :) Here they are : \nBlague \nGeneric \nHumidité")
 	    }
     }
     res.sendStatus(200)
@@ -104,6 +108,43 @@ function sendTextMessage(sender, text) {
 		if (error) {
 		    console.log('Error sending messages: ', error)
 		} else if (response.body.error) {
+		    console.log('Error: ', response.body.error)
+	    }
+    })
+}
+
+function sendMedia(sender) {
+    let messageData = {
+		"recipient":{
+			"id":"<PSID>"
+		  },
+		  "message":{
+			"attachment": {
+			  "type": "template",
+			  "payload": {
+				 "template_type": "media",
+				 "elements": [
+					{
+					   "media_type": "<image|video>",
+					   "url": "https://media.giphy.com/media/JzujPK0id34qI/giphy.gif"
+					}
+				 ]
+			  }
+			}    
+		  }
+    }
+    request({
+	    url: 'https://graph.facebook.com/v2.6/me/messages',
+	    qs: {access_token:token},
+	    method: 'POST',
+	    json: {
+		    recipient: {id:sender},
+		    message: messageData,
+	    }
+    }, function(error, response, body) {
+	    if (error) {
+		    console.log('Error sending messages: ', error)
+	    } else if (response.body.error) {
 		    console.log('Error: ', response.body.error)
 	    }
     })
