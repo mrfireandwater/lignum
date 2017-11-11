@@ -42,7 +42,7 @@ app.get('/senddata/', function (req, res) {
 function sendHumidity(sender) {
 	if (state === 'soif'){
 		sendTextMessage(sender, "Humidité "+humidity+"%, je sèche misère! :O :beer:")
-		continue
+
 	}
 	if(state === 'ok'){
 		sendTextMessage(sender, "Humidité "+humidity+"%, j'ai pas encore soif!")
