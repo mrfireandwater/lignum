@@ -9,6 +9,7 @@ const app = express()
 let loicsender
 
 var humidity
+var state
 
 app.set('port', (process.env.PORT || 5000))
 
@@ -39,12 +40,12 @@ app.get('/senddata/', function (req, res) {
 })
 */
 function sendHumidity(sender) {
-	if (humidity <= 30){
-		sendTextMessage(sender, "Humidité"+humidity+"%, je sèche misère! :O :beer:")
+	if (state === 'soif'){
+		sendTextMessage(sender, "Humidité "+humidity+"%, je sèche misère! :O :beer:")
 		continue
 	}
-	else{
-		sendTextMessage(sender, "Humidité"+humidity+"%, j'ai pas encore soif!")
+	if(state === 'ok'){
+		sendTextMessage(sender, "Humidité "+humidity+"%, j'ai pas encore soif!")
 		continue
 	}
 }
@@ -52,6 +53,7 @@ function sendHumidity(sender) {
 // Route that receives a POST request to /sms
 app.post('/senddata/', function (req, res) {
 	humidity = req.body.Body
+	state = req.body.State
 	console.log("Session: %j", req.body);
 	sendHumidity(loicsender)
 	//sendTextMessage(loicsender, "Humidité de " + req.body.Body+"%")
@@ -94,13 +96,7 @@ app.post('/webhook/', function (req, res) {
 		    	continue
 		    }
 			if (text === 'Humidité') {
-				if (humidity <= 30){
-					sendTextMessage(sender, "Humidité"+humidity+"%, je sèche misère! :O 🍺")
-					continue
-				}
-				else{
-					sendTextMessage(sender, "Humidité"+humidity+"%, j'ai pas encore soif!")
-					continue
+				sendHumidity(loicsender)
 				}
 		    }
 			//Default message
