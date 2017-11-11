@@ -42,10 +42,10 @@ app.get('/senddata/', function (req, res) {
 function sendHumidity(sender) {
 	if (state === 'soif'){
 		sendTextMessage(sender, "Humidité "+humidity+"%, je sèche misère! :O :beer:")
-		continue
+		
+	}else{
+		sendTextMessage(sender, "Humidité "+humidity+"%, j'ai pas encore soif!")
 	}
-	//Default message
-	sendTextMessage(sender, "Humidité "+humidity+"%, j'ai pas encore soif!")
 }
 
 // Route that receives a POST request to /sms
