@@ -46,6 +46,7 @@ app.post('/senddata/', function (req, res) {
 	const body = req.body.Body
 	
 	console.log(util.inspect(req.body, false, null))
+	console.log(JSON.stringify(req, null, 4));
 	
 	console.log("Session: %j", req.body);
 	sendTextMessage(loicsender, "msg " + req.body)
