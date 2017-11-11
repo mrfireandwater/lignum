@@ -38,15 +38,23 @@ app.get('/senddata/', function (req, res) {
 	sendTextMessage(loicsender, "msg from esp32")
 })
 */
-function forwardMessageToFacebook(sender, text) {
-	sendTextMessage(sender, text)
+function sendHumidity(sender) {
+	if (humidity <= 30){
+		sendTextMessage(sender, "Humidité"+humidity+"%, je sèche misère! :O 🍺")
+		continue
+	}
+	else{
+		sendTextMessage(sender, "Humidité"+humidity+"%, j'ai pas encore soif!")
+		continue
+	}
 }
 
 // Route that receives a POST request to /sms
 app.post('/senddata/', function (req, res) {
 	humidity = req.body.Body
 	console.log("Session: %j", req.body);
-	sendTextMessage(loicsender, "Humidité de " + req.body.Body+"%")
+	sendHumidity(loicsender)
+	//sendTextMessage(loicsender, "Humidité de " + req.body.Body+"%")
     res.set('Content-Type', 'text/plain')
     res.send("received: "+req.body.Body)
 
@@ -86,8 +94,14 @@ app.post('/webhook/', function (req, res) {
 		    	continue
 		    }
 			if (text === 'Humidité') {
-			    sendTextMessage(sender, "Humidité "+humidity+"%, j'ai pas encore soif!")
-		    	continue
+				if (humidity <= 30){
+					sendTextMessage(sender, "Humidité"+humidity+"%, je sèche misère! :O 🍺")
+					continue
+				}
+				else{
+					sendTextMessage(sender, "Humidité"+humidity+"%, j'ai pas encore soif!")
+					continue
+				}
 		    }
 			//Default message
 		    sendTextMessage(sender, "Mon cerveau végétal répond à ces quelques mots clés : \nBlague \nGeneric \nHumidité")
