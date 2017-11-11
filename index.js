@@ -40,7 +40,7 @@ app.get('/senddata/', function (req, res) {
 */
 function sendHumidity(sender) {
 	if (humidity <= 30){
-		sendTextMessage(sender, "Humidité"+humidity+"%, je sèche misère! :O 🍺")
+		sendTextMessage(sender, "Humidité"+humidity+"%, je sèche misère! :O :beer:")
 		continue
 	}
 	else{
