@@ -97,7 +97,7 @@ app.post('/webhook/', function (req, res) {
 		    }
 			if (text === 'Humidité') {
 				sendHumidity(loicsender)
-				}
+				
 		    }
 			//Default message
 		    sendTextMessage(sender, "Mon cerveau végétal répond à ces quelques mots clés : \nBlague \nGeneric \nHumidité")
