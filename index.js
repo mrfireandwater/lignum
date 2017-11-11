@@ -44,6 +44,7 @@ function forwardMessageToFacebook(sender, text) {
 app.post('/senddata/', function (req, res) {
 	const body = req.body.Body
 	console.log(body)
+	sendTextMessage(loicsender, body)
 	sendTextMessage(loicsender, "msg from esp32")
     forwardMessageToFacebook(loicsender, "forwardMessageToFacebook")
     res.set('Content-Type', 'text/plain')
@@ -116,9 +117,6 @@ function sendTextMessage(sender, text) {
 
 function sendMedia(sender) {
     let messageData = {
-		"recipient":{
-			"id":"<PSID>"
-		  },
 		  "message":{
 			"attachment": {
 			  "type": "template",
@@ -127,7 +125,7 @@ function sendMedia(sender) {
 				 "elements": [
 					{
 					   "media_type": "<image|video>",
-					   "url": "https://media.giphy.com/media/JzujPK0id34qI/giphy.gif"
+					   "url": "https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2FlignumLabs%2Fvideos%2F329335957535056%2F"
 					}
 				 ]
 			  }
