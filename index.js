@@ -83,7 +83,8 @@ app.post('/webhook/', function (req, res) {
 			    sendTextMessage(sender, "Humidité 47%, j'ai pas encore soif!")
 		    	continue
 		    }
-		    sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200))
+			//Default message
+		    sendTextMessage(sender, "Ask me those things: \nBlague \nGeneric \nHumidité")
 	    }
     }
     res.sendStatus(200)
