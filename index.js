@@ -47,7 +47,7 @@ app.post('/senddata/', function (req, res) {
 	sendTextMessage(loicsender, "msg " + req.body)
 	sendTextMessage(loicsender, "msg from esp32")
     res.set('Content-Type', 'text/plain')
-    res.send(req.body)
+    res.send(req.body.Body)
 
 })
 
