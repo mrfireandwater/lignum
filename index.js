@@ -46,7 +46,7 @@ function sendHumidity(sender) {
 	}
 	if(state === 'ok'){
 		sendTextMessage(sender, "Humidité "+humidity+"%, j'ai pas encore soif!")
-		continue
+		
 	}
 }
 
