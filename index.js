@@ -4,6 +4,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const request = require('request')
 const app = express()
+const util = require('util')
 
 // loic constants
 let loicsender
@@ -43,8 +44,11 @@ function forwardMessageToFacebook(sender, text) {
 // Route that receives a POST request to /sms
 app.post('/senddata/', function (req, res) {
 	const body = req.body.Body
+	
+	console.log(util.inspect(req.body, false, null))
+	
 	console.log("Session: %j", req.body);
-	sendTextMessage(loicsender, "msg " + req.body.Body)
+	sendTextMessage(loicsender, "msg " + req.body)
 	sendTextMessage(loicsender, "msg from esp32")
     res.set('Content-Type', 'text/plain')
     res.send('received')
