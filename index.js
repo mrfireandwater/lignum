@@ -8,6 +8,8 @@ const app = express()
 // loic constants
 let loicsender
 
+var humidity
+
 app.set('port', (process.env.PORT || 5000))
 
 // Process application/x-www-form-urlencoded
@@ -42,12 +44,11 @@ function forwardMessageToFacebook(sender, text) {
 
 // Route that receives a POST request to /sms
 app.post('/senddata/', function (req, res) {
-	const body = req.body.Body
+	humidity = req.body.Body
 	console.log("Session: %j", req.body);
-	sendTextMessage(loicsender, "msg " + req.body.Body)
-	sendTextMessage(loicsender, "msg from esp32")
+	sendTextMessage(loicsender, "Humidité de " + req.body.Body+"%")
     res.set('Content-Type', 'text/plain')
-    res.send(req.body.Body)
+    res.send("received: "+req.body.Body)
 
 })
 
@@ -85,11 +86,11 @@ app.post('/webhook/', function (req, res) {
 		    	continue
 		    }
 			if (text === 'Humidité') {
-			    sendTextMessage(sender, "Humidité 47%, j'ai pas encore soif!")
+			    sendTextMessage(sender, "Humidité "+humidity+"%, j'ai pas encore soif!")
 		    	continue
 		    }
 			//Default message
-		    sendTextMessage(sender, "Simple lignum responds to simple messages :) Here they are : \nBlague \nGeneric \nHumidité")
+		    sendTextMessage(sender, "Mon cerveau végétal répond à ces quelques mots clés : \nBlague \nGeneric \nHumidité")
 	    }
     }
     res.sendStatus(200)
