@@ -26,7 +26,7 @@ app.get('/loic', function (req, res) {
 	res.send('loic here')
 	sendTextMessage(loicsender, "loic here")
 })
-
+/*
 // Route that receives a POST request to /senddata
 app.get('/senddata/', function (req, res) {
 	const body = req.body.Body
@@ -35,7 +35,7 @@ app.get('/senddata/', function (req, res) {
 	forwardMessageToFacebook(loicsender, "forwardMessageToFacebook")
 	sendTextMessage(loicsender, "msg from esp32")
 })
-
+*/
 function forwardMessageToFacebook(sender, text) {
 	sendTextMessage(sender, text)
 }
@@ -44,6 +44,7 @@ function forwardMessageToFacebook(sender, text) {
 app.post('/senddata/', function (req, res) {
 	const body = req.body.Body
 	console.log("Session: %j", req.body);
+	sendTextMessage(loicsender, "msg " + req.body)
 	sendTextMessage(loicsender, "msg from esp32")
     res.set('Content-Type', 'text/plain')
     res.send('received')
