@@ -43,10 +43,9 @@ function forwardMessageToFacebook(sender, text) {
 // Route that receives a POST request to /sms
 app.post('/senddata/', function (req, res) {
 	const body = req.body.Body
-	console.log(body)
-	sendTextMessage(loicsender, body)
+	//console.log(body)
+	
 	sendTextMessage(loicsender, "msg from esp32")
-    forwardMessageToFacebook(loicsender, "forwardMessageToFacebook")
     res.set('Content-Type', 'text/plain')
     res.send('received')
 
