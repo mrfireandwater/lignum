@@ -43,8 +43,7 @@ function forwardMessageToFacebook(sender, text) {
 // Route that receives a POST request to /sms
 app.post('/senddata/', function (req, res) {
 	const body = req.body.Body
-	//console.log(body)
-	
+	console.log("Session: %j", body);
 	sendTextMessage(loicsender, "msg from esp32")
     res.set('Content-Type', 'text/plain')
     res.send('received')
@@ -89,7 +88,7 @@ app.post('/webhook/', function (req, res) {
 		    	continue
 		    }
 			//Default message
-		    sendTextMessage(sender, "Simple lignum responds to simple message :) Here they are : \nBlague \nGeneric \nHumidité")
+		    sendTextMessage(sender, "Simple lignum responds to simple messages :) Here they are : \nBlague \nGeneric \nHumidité")
 	    }
     }
     res.sendStatus(200)
