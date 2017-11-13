@@ -29,16 +29,7 @@ app.get('/loic', function (req, res) {
 	res.send('loic here')
 	sendTextMessage(loicsender, "loic here")
 })
-/*
-// Route that receives a POST request to /senddata
-app.get('/senddata/', function (req, res) {
-	const body = req.body.Body
-	res.send("senddata here")
-	console.log(body)
-	forwardMessageToFacebook(loicsender, "forwardMessageToFacebook")
-	sendTextMessage(loicsender, "msg from esp32")
-})
-*/
+
 function sendHumidity(sender) {
 	if (state === 'soif'){
 		sendTextMessage(sender, "Humidité "+humidity+"%, je sèche misère! :O :beer:")
@@ -105,7 +96,13 @@ app.post('/webhook/', function (req, res) {
                 //present user with some greeting or call to action
                 var msg = "Hi ,I'm a Bot ,and I was created to help you easily .... "
                 sendTextMessage(sender, msg)      
-        }      
+			}
+			//postback response to get started :
+			if(event.postback && event.postback.payload === 'get-started-payload' ){
+                //present user with some greeting or call to action
+                var msg = "Hi ,I'm a Bot ,and I was created to help you easily .... "
+                sendTextMessage(sender, msg)      
+			}
 		}
     }
     res.sendStatus(200)
@@ -211,4 +208,36 @@ function sendGenericMessage(sender) {
     })
 }
 
+//bouton get started au bot :
+function setupGetStartedButton(res){
+        var messageData = {
+                "get_started":[
+                {
+                    "payload":"get-started-payload"
+                    }
+                ]
+        };
+
+        // Start the request
+        request({
+            url: 'https://graph.facebook.com/v2.6/me/messenger_profile?access_token='+ token,
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            form: messageData
+        },
+        function (error, response, body) {
+            if (!error && response.statusCode == 200) {
+                // Print out the response body
+                res.send(body);
+
+            } else { 
+                // TODO: Handle errors
+                res.send(body);
+            }
+        });
+    } 
+//postback response to get started
+app.get('/setup',function(req,res){
+    setupGetStartedButton(res);
+});
 const token = "EAAcAbgtQhBcBAOY15fGXJH3FTocuzhDwZA8RJZCpuTPjoZCzFfDHZAtgzAfxaAxGVLyirj7W05ELfmYe7Qfkk9i7WZALWZB67YCi9ZCs74JzvBQqOGWB0C2lx3HKsD8JCMfzVIcxFHrMqWFtStyxuZCV7Q3rQ0ZB4BXhwWiXt8T3HngCfeFkLZBECH"
