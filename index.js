@@ -100,6 +100,13 @@ app.post('/webhook/', function (req, res) {
 			//Default message
 		    sendTextMessage(sender, "Mon cerveau végétal répond à ces quelques mots clés : \nBlague \nGeneric \nHumidité")
 	    }
+		else{ // If the event is a postback and has a payload equals USER_DEFINED_PAYLOAD 
+			if(event.postback && event.postback.payload === 'Payload for first element in a generic bubble' ){
+                //present user with some greeting or call to action
+                var msg = "Hi ,I'm a Bot ,and I was created to help you easily .... "
+                sendTextMessage(sender, msg)      
+        }      
+		}
     }
     res.sendStatus(200)
 })
