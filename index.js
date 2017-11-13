@@ -132,20 +132,18 @@ function sendTextMessage(sender, text) {
 
 function sendMedia(sender) {
     let messageData = {
-		  "message":{
-			"attachment": {
-			  "type": "template",
-			  "payload": {
-				 "template_type": "media",
-				 "elements": [
-					{
-					   "media_type": "<image|video>",
-					   "url": "https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2FlignumLabs%2Fvideos%2F329335957535056%2F"
-					}
-				 ]
-			  }
-			}    
+		"attachment": {
+		  "type": "template",
+		  "payload": {
+			 "template_type": "media",
+			 "elements": [
+				{
+				   "media_type": "<image|video>",
+				   "url": "https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2FlignumLabs%2Fvideos%2F329335957535056%2F"
+				}
+			 ]
 		  }
+		}    
     }
     request({
 	    url: 'https://graph.facebook.com/v2.6/me/messages',
