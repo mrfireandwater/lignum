@@ -50,7 +50,6 @@ app.get('/loic', function (req, res) {
 		}
 		content = data;
 		console.log(content);   // Put all of the code here (not the best solution)
-		return content.id;
 	});
  }
  
@@ -87,7 +86,7 @@ function sendHumidity(sender) {
 		sendTextMessage(sender, "mmh mmh")
 		sendTextMessage(sender, "Je crois que tu as oublié d'allumer l'appareil")
 		sendTextMessage(sender, "O:)")
-		sendTextMessage(sender, "Humidité "+readJson(Humidity)+"%, vite de l'eau, de l'eau! :) :beer:")
+		readJson(Humidity)
 	}
 	else if(json.Thirst === 'soif'){
 		sendTextMessage(sender, "Pss, la plante d'à côté est un vrai trou!")
