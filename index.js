@@ -58,7 +58,7 @@ app.get('/loic', function (req, res) {
  * INPUT : what to write
  * OUTPUT : nothing
  */
- function writeFile(file){
+ function writeJson(file){
 	fs.writeFile(file+".json", JSON.stringify(json), function (err) {
 		if (err) return console.log(err);		
 		console.log('Wrote!');
