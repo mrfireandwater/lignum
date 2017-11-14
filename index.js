@@ -101,7 +101,7 @@ function sendHumidity(sender) {
 	if (content.Humidity === '0'){
 		sendTextMessage(sender, "mmh")
 		sendTextMessage(sender, "mmh mmh")
-		sendTextMessage(sender, "Je crois que tu as oublié d'allumer l'appareil")
+		sendTextMessage(sender, "Je crois que tu as oublié d'allumer l'appareil ou alors c'est vraiment sec haha")
 		sendTextMessage(sender, "O:)")
 	}
 	else if(content.Thirst === 'soif'){
@@ -109,8 +109,9 @@ function sendHumidity(sender) {
 		sendTextMessage(sender, "Humidité "+content.Humidity+"%, vite de l'eau, de l'eau! :) :beer:")
 	}
 	else if(content.Thirst === 'ok'){
-		sendTextMessage(sender, "tout coule...euh tout roule pour moi ;)")
-		sendTextMessage(sender, "Humidité "+content.Humidity+"%, j'ai pas encore soif!")
+		sendTextMessage(sender, "debug: Thirst = ok")
+		//sendTextMessage(sender, "tout coule...euh tout roule pour moi ;)")
+		//sendTextMessage(sender, "Humidité "+content.Humidity+"%, j'ai pas encore soif!")
 	}
 	else{
 		sendTextMessage(sender, "erreur dans le json, Thirst vaut: "+content.Thirst)
@@ -134,7 +135,7 @@ app.post('/senddata/', function (req, res) {
     
 	//respond to post request from arduino by a post request.
 	res.set('Content-Type', 'text/plain')
-    res.send("received: "+req.body.Body)
+    res.send("received: "+req.body.Humidity)
 
 })
 
