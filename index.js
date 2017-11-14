@@ -43,13 +43,29 @@ app.get('/loic', function (req, res) {
  * INPUT : what to read
  * OUTPUT : content
  */
- function readJson(id){
+ function readJson(){
 	fs.readFile('plant.json', function read(err, data) {
 		if (err) {
 			throw err;
 		}
 		content = data;
 		console.log(content);   // Put all of the code here (not the best solution)
+	});
+ }
+ 
+ /*
+ * FONCTION : Read Json file
+ * INPUT : what to read
+ * OUTPUT : content
+ */
+ function SendHumidityRead(sender){
+	fs.readFile('plant.json', function read(err, data) {
+		if (err) {
+			throw err;
+		}
+		content = data;
+		console.log("content read"+content);   // Put all of the code here (not the best solution)
+		sendHumidity(sender)
 	});
  }
  
@@ -61,7 +77,7 @@ app.get('/loic', function (req, res) {
  function writeJson(file){
 	fs.writeFile(file+".json", JSON.stringify(json), function (err) {
 		if (err) return console.log(err);		
-		console.log('Wrote!');
+		console.log('File written!');
 	});
  }
  writeJson(json) //called once on startup
@@ -87,10 +103,11 @@ function sendHumidity(sender) {
 		sendTextMessage(sender, "mmh mmh")
 		sendTextMessage(sender, "Je crois que tu as oublié d'allumer l'appareil")
 		sendTextMessage(sender, "O:)")
+		sendTextMessage(sender, "Humidité "+content.Humidity+"%, vite de l'eau, de l'eau! :) :beer:")
 	}
 	else if(json.Thirst === 'soif'){
 		sendTextMessage(sender, "Pss, la plante d'à côté est un vrai trou!")
-		sendTextMessage(sender, "Humidité "+readJson(Humidity)+"%, vite de l'eau, de l'eau! :) :beer:")
+		sendTextMessage(sender, "Humidité "+content.Humidity+"%, vite de l'eau, de l'eau! :) :beer:")
 	}
 	else if(json.Thirst === 'ok'){
 		sendTextMessage(sender, "tout coule...euh tout roule pour moi ;)")
@@ -115,7 +132,7 @@ app.post('/senddata/', function (req, res) {
 	console.log("Session: %j", json);
 	console.log("Session: %j", req.body);
 	
-	sendHumidity(loicsender) //alert user if plant require watering
+	sendHumidityRead(loicsender) //alert user if plant require watering
     
 	//respond to post request from arduino by a post request.
 	res.set('Content-Type', 'text/plain')
