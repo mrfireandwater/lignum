@@ -53,9 +53,16 @@ function modJson(id, newEntry) {
  */
 function sendHumidity(sender) {
 	if (json.Thirst === 'soif'){
-		sendTextMessage(sender, "Humidité "+json.Humidity+"%, je sèche misère! :O :beer:")
-		
-	}else{
+		if(json.Humidity === '0'){
+			sendTextMessage(sender, "mmh")
+			sendTextMessage(sender, "mmh mmh")
+			sendTextMessage(sender, "Je crois que tu as oublié d'allumer l'appareil")
+			sendTextMessage(sender, "O:)")
+		}
+		else{
+			sendTextMessage(sender, "Humidité "+json.Humidity+"%, je sèche misère! :O :beer:")
+	}	}
+	else{
 		sendTextMessage(sender, "Humidité "+json.Humidity+"%, j'ai pas encore soif!")
 	}
 }
