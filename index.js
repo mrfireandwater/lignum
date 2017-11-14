@@ -109,9 +109,8 @@ function sendHumidity(sender) {
 		sendTextMessage(sender, "Humidité "+content.Humidity+"%, vite de l'eau, de l'eau! :) :beer:")
 	}
 	else if(content.Thirst === 'ok'){
-		sendTextMessage(sender, "debug: Thirst = ok")
-		//sendTextMessage(sender, "tout coule...euh tout roule pour moi ;)")
-		//sendTextMessage(sender, "Humidité "+content.Humidity+"%, j'ai pas encore soif!")
+		sendTextMessage(sender, "tout coule...euh tout roule pour moi ;)")
+		sendTextMessage(sender, "Humidité "+content.Humidity+"%, j'ai pas encore soif!")
 	}
 	else{
 		sendTextMessage(sender, "erreur dans le json, Thirst vaut: "+content.Thirst)
@@ -131,7 +130,8 @@ app.post('/senddata/', function (req, res) {
 	
 	console.log("got from esp32: %j", req.body);
 	
-	SendHumidityRead(loicsender) //alert user if plant require watering
+	//activate for debug
+	//SendHumidityRead(loicsender) //alert user if plant require watering
     
 	//respond to post request from arduino by a post request.
 	res.set('Content-Type', 'text/plain')
