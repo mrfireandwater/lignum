@@ -174,7 +174,7 @@ app.post('/webhook/', function (req, res) {
 		    	continue
 		    }
 			if (text === 'Humidité') {
-				sendHumidity(loicsender)
+				sendHumidityRead(loicsender)
 				continue
 		    }
 			//Default message
