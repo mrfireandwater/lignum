@@ -86,7 +86,6 @@ function sendHumidity(sender) {
 		sendTextMessage(sender, "mmh mmh")
 		sendTextMessage(sender, "Je crois que tu as oublié d'allumer l'appareil")
 		sendTextMessage(sender, "O:)")
-		readJson(Humidity)
 	}
 	else if(json.Thirst === 'soif'){
 		sendTextMessage(sender, "Pss, la plante d'à côté est un vrai trou!")
