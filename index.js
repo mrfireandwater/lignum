@@ -43,7 +43,7 @@ app.get('/loic', function (req, res) {
  * INPUT : what to read
  * OUTPUT : content
  */
- fonction readJson(id){
+ function readJson(id){
 	fs.readFile('plant.json', function read(err, data) {
 		if (err) {
 			throw err;
@@ -59,7 +59,7 @@ app.get('/loic', function (req, res) {
  * INPUT : what to write
  * OUTPUT : nothing
  */
- fonction writeFile(){
+ function writeFile(){
 	fs.writeFile("plant.json", JSON.stringify(json), function (err) {
 		if (err) return console.log(err);		
 		console.log('Wrote!');
