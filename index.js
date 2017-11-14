@@ -18,6 +18,7 @@ var content //used to read json file
  */
 var data = '{"Humidity": "0","Thirst": "ok"}'
 var json = JSON.parse(data);
+writeJson(json)
 
 app.set('port', (process.env.PORT || 5000))
 
@@ -58,8 +59,8 @@ app.get('/loic', function (req, res) {
  * INPUT : what to write
  * OUTPUT : nothing
  */
- function writeFile(){
-	fs.writeFile("plant.json", JSON.stringify(json), function (err) {
+ function writeFile(file){
+	fs.writeFile(file+".json", JSON.stringify(json), function (err) {
 		if (err) return console.log(err);		
 		console.log('Wrote!');
 	});
