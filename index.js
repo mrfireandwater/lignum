@@ -18,7 +18,6 @@ var content //used to read json file
  */
 var data = '{"Humidity": "0","Thirst": "ok"}'
 var json = JSON.parse(data);
-writeJson(json)
 
 app.set('port', (process.env.PORT || 5000))
 
@@ -65,6 +64,7 @@ app.get('/loic', function (req, res) {
 		console.log('Wrote!');
 	});
  }
+ writeJson(json) //called once on startup
  
 /*
  * FONCTION : Modify Json
