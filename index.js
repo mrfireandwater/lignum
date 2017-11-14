@@ -81,7 +81,7 @@ function modJson(id, newEntry) {
  * OUTPUT : content
  */
  function SendHumidityRead(sender){
-	fs.readFile('plant.json', function read(err, data) {
+	fs.readFile('json.json', function read(err, data) {
 		if (err) {
 			throw err;
 		}
