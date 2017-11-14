@@ -15,7 +15,7 @@ var state
 /*store data into Json file when the server automatically shut down
  * Humidity from 0 to 100%, Thirst : soif or else
  */
-var data = '{"Humidity": "0","Thirst": "rien"}'
+var data = '{"Humidity": "0","Thirst": "ok"}'
 var json = JSON.parse(data);
 
 app.set('port', (process.env.PORT || 5000))
@@ -62,8 +62,11 @@ function sendHumidity(sender) {
 		else{
 			sendTextMessage(sender, "Humidité "+json.Humidity+"%, je sèche misère! :O :beer:")
 	}	}
-	else{
+	else if(json.Thirst === 'ok'){
 		sendTextMessage(sender, "Humidité "+json.Humidity+"%, j'ai pas encore soif!")
+	}
+	else{
+		sendTextMessage(sender, "erreur dans le json, Thirst vaut: "+json.Thirst)
 	}
 }
 
