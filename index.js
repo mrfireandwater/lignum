@@ -54,22 +54,6 @@ app.get('/loic', function (req, res) {
  }
  
  /*
- * FONCTION : Read Json file
- * INPUT : what to read
- * OUTPUT : content
- */
- function SendHumidityRead(sender){
-	fs.readFile('plant.json', function read(err, data) {
-		if (err) {
-			throw err;
-		}
-		content = data;
-		console.log("content read"+content);   // Put all of the code here (not the best solution)
-		//sendHumidity(sender)
-	});
- }
- 
- /*
  * FONCTION : Write Json file
  * INPUT : what to write
  * OUTPUT : nothing
@@ -90,8 +74,24 @@ app.get('/loic', function (req, res) {
 function modJson(id, newEntry) {
   json.id = newEntry
 }
-
-/*
+ 
+ /*
+ * FONCTION : Read Json file
+ * INPUT : what to read
+ * OUTPUT : content
+ */
+ function SendHumidityRead(sender){
+	fs.readFile('plant.json', function read(err, data) {
+		if (err) {
+			throw err;
+		}
+		content = data;
+		console.log("content read"+content);   // Put all of the code here (not the best solution)
+		//sendHumidity(sender)
+	});
+ }
+ 
+ /*
  * FONCTION : Envoie un message sur l'humidité
  * INPUT : destinataire
  * OUTPUT : rien
@@ -132,7 +132,7 @@ app.post('/senddata/', function (req, res) {
 	console.log("Session: %j", json);
 	console.log("Session: %j", req.body);
 	
-	sendHumidityRead(loicsender) //alert user if plant require watering
+	SendHumidityRead(loicsender) //alert user if plant require watering
     
 	//respond to post request from arduino by a post request.
 	res.set('Content-Type', 'text/plain')
@@ -174,7 +174,7 @@ app.post('/webhook/', function (req, res) {
 		    	continue
 		    }
 			if (text === 'Humidité') {
-				sendHumidityRead(loicsender)
+				SendHumidityRead(loicsender)
 				continue
 		    }
 			//Default message
