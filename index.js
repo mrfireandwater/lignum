@@ -3,6 +3,7 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const request = require('request')
+var fs = require("fs")
 const app = express()
 
 // loic constants
@@ -10,6 +11,12 @@ let loicsender
 
 var humidity
 var state
+
+/*store data into Json file when the server automatically shut down
+ * Humidity from 0 to 100%, Thirst : soif or else
+ */
+var data = '{"Humidity": "0","Thirst": "rien"}'
+var json = JSON.parse(data);
 
 app.set('port', (process.env.PORT || 5000))
 
@@ -30,19 +37,40 @@ app.get('/loic', function (req, res) {
 	sendTextMessage(loicsender, "loic here")
 })
 
+/*
+ * FONCTION : Modify Json
+ * INPUT : id, newEntry
+ * OUTPUT : nothing
+ */
+function modJson(id, newEntry) {
+  json.id = newEntry
+}
+
+// Call as
+setUsername(3, "Thomas");
+
+/*
+ * FONCTION : Envoie un message sur l'humidité
+ * INPUT : destinataire
+ * OUTPUT : rien
+ */
 function sendHumidity(sender) {
-	if (state === 'soif'){
-		sendTextMessage(sender, "Humidité "+humidity+"%, je sèche misère! :O :beer:")
+	if (json.Thirst === 'soif'){
+		sendTextMessage(sender, "Humidité "+json.Humidity+"%, je sèche misère! :O :beer:")
 		
 	}else{
-		sendTextMessage(sender, "Humidité "+humidity+"%, j'ai pas encore soif!")
+		sendTextMessage(sender, "Humidité "+json.Humidity+"%, j'ai pas encore soif!")
 	}
 }
 
-// Route that receives a POST request to /sms
+// Receive the data from arduino and call sendHumidity
 app.post('/senddata/', function (req, res) {
 	humidity = req.body.Body
+	modJson('Humidity', humidity)
 	state = req.body.State
+	modJson('Thirst', state)
+	fs.writeFile( "filename.json", JSON.stringify( json ), "utf8", yourCallback );
+	console.log("Session: %j", json);
 	console.log("Session: %j", req.body);
 	sendHumidity(loicsender)
 	//sendTextMessage(loicsender, "Humidité de " + req.body.Body+"%")
@@ -94,13 +122,13 @@ app.post('/webhook/', function (req, res) {
 		else{ // If the event is a postback and has a payload equals USER_DEFINED_PAYLOAD 
 			if(event.postback && event.postback.payload === 'Payload for first element in a generic bubble' ){
                 //present user with some greeting or call to action
-                var msg = "Hi ,I'm a Bot ,and I was created to help you easily .... "
+                var msg = "Ce bouton postback ne sert à rien"
                 sendTextMessage(sender, msg)      
 			}
 			//postback response to get started :
 			if(event.postback && event.postback.payload === 'get-started-payload' ){
                 //present user with some greeting or call to action
-                var msg = "Hi ,I'm a Bot ,and I was created to help you easily .... "
+                var msg = "Salut! Tape n'importe quoi pour voir ce que je peux faire :)"
                 sendTextMessage(sender, msg)      
 			}
 		}
@@ -108,6 +136,11 @@ app.post('/webhook/', function (req, res) {
     res.sendStatus(200)
 })
 
+/*
+ * FONCTION : Send a message to facebook
+ * INPUT : recipient, text message
+ * OUTPUT : console log
+ */
 function sendTextMessage(sender, text) {
     let messageData = { text:text }
     request({
@@ -240,4 +273,6 @@ function setupGetStartedButton(res){
 app.get('/setup',function(req,res){
     setupGetStartedButton(res);
 });
+
+//indentifying token for facebook
 const token = "EAAcAbgtQhBcBAOY15fGXJH3FTocuzhDwZA8RJZCpuTPjoZCzFfDHZAtgzAfxaAxGVLyirj7W05ELfmYe7Qfkk9i7WZALWZB67YCi9ZCs74JzvBQqOGWB0C2lx3HKsD8JCMfzVIcxFHrMqWFtStyxuZCV7Q3rQ0ZB4BXhwWiXt8T3HngCfeFkLZBECH"

@@ -15,6 +15,7 @@
 const char* ssid = "thisisit";
 const char* password =  "23456789";
 String state;
+const int analogSensor = 36;
  
 void setup() {
  
@@ -34,6 +35,8 @@ void setup() {
  
 void loop() {
  sendHumidity(30);
+ Serial.print("valeur relevee : ");
+ Serial.println(analogRead(analogSensor)/4950);
  
 }
 
