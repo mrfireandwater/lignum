@@ -48,7 +48,7 @@ app.get('/loic', function (req, res) {
 		if (err) {
 			throw err;
 		}
-		content = JSON.parse(data);
+		content = data;
 		console.log(content);   // Put all of the code here (not the best solution)
 	});
  }
@@ -98,7 +98,7 @@ function modJson(id, newEntry) {
  */
 function sendHumidity(sender) {
 	console.log("Session: %j", json);
-	console.log("humidité: "+content.Humidity)
+	console.log("humidité: "+alert(content.Humidity))
 	if (json.Humidity === '0'){
 		sendTextMessage(sender, "mmh")
 		sendTextMessage(sender, "mmh mmh")
