@@ -53,7 +53,7 @@ function modJson(id, newEntry) {
  */
 function sendHumidity(sender) {
 	console.log("Session: %j", json);
-	if (json.Humidity === 'ok' || json.Humidity === 'soif'){
+	if (json.Thirst === 'ok' || json.Thirst === 'soif'){
 		if(json.Humidity === '0'){
 			sendTextMessage(sender, "mmh")
 			sendTextMessage(sender, "mmh mmh")
