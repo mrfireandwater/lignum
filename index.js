@@ -168,15 +168,20 @@ app.post('/webhook/', function (req, res) {
 			    sendMedia(sender)
 		    	continue
 		    }
-			if (text === 'allo') {
+			if (text === 'allo' || text === 'Allo') {
 			    sendTextMessage(sender, "à l'huile")
 		    	continue
 		    }
-			if (text === 'Blague') {
+			if (text === 'merci' || text === 'Merci') {
+			    sendTextMessage(sender, "De rien")
+				sendTextMessage(sender, ":)")
+		    	continue
+		    }
+			if (text === 'Blague' || text === 'blague') {
 			    sendTextMessage(sender, "C'est l'histoire d'une plante qui se balade tête en l'air comme elle est. Sans le voir venir, elle s'encouble et se plante.")
 		    	continue
 		    }
-			if (text === 'Humidité') {
+			if (text === 'Humidité' || text === 'humidité') {
 				SendHumidityRead(loicsender)
 				continue
 		    }

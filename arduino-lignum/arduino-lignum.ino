@@ -12,8 +12,8 @@
 #include <WiFi.h>
 #include <HTTPClient.h>
  
-const char* ssid = "thisisit";
-const char* password =  "23456789";
+const char* ssid = "ThinkDifferent";
+const char* password =  "Caudron-C.460";
 String thirst;
 const int analogSensor = 36;
 int humidity = 0;
