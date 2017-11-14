@@ -99,23 +99,23 @@ function modJson(id, newEntry) {
 function sendHumidity(sender) {
 	console.log("Session: %j", json);
 	console.log("humidité: "+content.Humidity)
-	if (json.Humidity === '0'){
+	if (content.Humidity === '0'){
 		sendTextMessage(sender, "mmh")
 		sendTextMessage(sender, "mmh mmh")
 		sendTextMessage(sender, "Je crois que tu as oublié d'allumer l'appareil")
 		sendTextMessage(sender, "O:)")
 		sendTextMessage(sender, "Humidité "+content.Humidity+"%, vite de l'eau, de l'eau! :) :beer:")
 	}
-	else if(json.Thirst === 'soif'){
+	else if(content.Thirst === 'soif'){
 		sendTextMessage(sender, "Pss, la plante d'à côté est un vrai trou!")
 		sendTextMessage(sender, "Humidité "+content.Humidity+"%, vite de l'eau, de l'eau! :) :beer:")
 	}
-	else if(json.Thirst === 'ok'){
+	else if(content.Thirst === 'ok'){
 		sendTextMessage(sender, "tout coule...euh tout roule pour moi ;)")
-		sendTextMessage(sender, "Humidité "+json.Humidity+"%, j'ai pas encore soif!")
+		sendTextMessage(sender, "Humidité "+content.Humidity+"%, j'ai pas encore soif!")
 	}
 	else{
-		sendTextMessage(sender, "erreur dans le json, Thirst vaut: "+json.Thirst)
+		sendTextMessage(sender, "erreur dans le json, Thirst vaut: "+content.Thirst)
 	}
 }
 
