@@ -85,7 +85,7 @@ function modJson(id, newEntry) {
 		if (err) {
 			throw err;
 		}
-		content = data;
+		content = JSON.parse(data);
 		console.log("content read"+content);   // Put all of the code here (not the best solution)
 		sendHumidity(sender)
 	});
