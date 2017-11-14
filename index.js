@@ -55,11 +55,8 @@ function sendHumidity(sender) {
 	console.log("Session: %j", json);
 	if (json.Humidity === '0'){
 		sendTextMessage(sender, "mmh")
-		sleep(100)
 		sendTextMessage(sender, "mmh mmh")
-		sleep(100)
 		sendTextMessage(sender, "Je crois que tu as oublié d'allumer l'appareil")
-		sleep(100)
 		sendTextMessage(sender, "O:)")
 	}
 	else if(json.Thirst === 'soif'){
