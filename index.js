@@ -48,7 +48,7 @@ app.get('/loic', function (req, res) {
 		if (err) {
 			throw err;
 		}
-		content = data;
+		content = JSON.parse(data);
 		console.log(content);   // Put all of the code here (not the best solution)
 	});
  }
