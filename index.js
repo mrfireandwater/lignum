@@ -65,7 +65,7 @@ app.get('/loic', function (req, res) {
 		}
 		content = data;
 		console.log("content read"+content);   // Put all of the code here (not the best solution)
-		sendHumidity(sender)
+		//sendHumidity(sender)
 	});
  }
  
