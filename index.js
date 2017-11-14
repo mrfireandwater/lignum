@@ -170,6 +170,10 @@ app.post('/webhook/', function (req, res) {
 			    sendMedia(sender)
 		    	continue
 		    }
+			if (text === 'allo') {
+			    sendTextMessage(sender, "à l'huile")
+		    	continue
+		    }
 			if (text === 'Blague') {
 			    sendTextMessage(sender, "C'est l'histoire d'une plante qui se balade tête en l'air comme elle est. Sans le voir venir, elle s'encouble et se plante.")
 		    	continue
