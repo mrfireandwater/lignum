@@ -98,7 +98,7 @@ function modJson(id, newEntry) {
  */
 function sendHumidity(sender) {
 	console.log("Session: %j", json);
-	console.log("humidité: "+alert(content.Humidity))
+	console.log("humidité: "+content.Humidity)
 	if (json.Humidity === '0'){
 		sendTextMessage(sender, "mmh")
 		sendTextMessage(sender, "mmh mmh")
