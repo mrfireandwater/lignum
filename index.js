@@ -58,13 +58,13 @@ app.get('/loic', function (req, res) {
  * INPUT : what to write
  * OUTPUT : nothing
  */
- function writeJson(file){
-	fs.writeFile(file+".json", JSON.stringify(json), function (err) {
+ function writeJson(){
+	fs.writeFile("./json.json", JSON.stringify(json), function (err) {
 		if (err) return console.log(err);		
 		console.log('File written!');
 	});
  }
- writeJson(json) //called once on startup
+ writeJson() //called once on startup
  
 /*
  * FONCTION : Modify Json
@@ -81,7 +81,7 @@ function modJson(id, newEntry) {
  * OUTPUT : content
  */
  function SendHumidityRead(sender){
-	fs.readFile('json.json', function read(err, data) {
+	fs.readFile('./json.json', function read(err, data) {
 		if (err) {
 			throw err;
 		}
