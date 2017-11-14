@@ -46,9 +46,6 @@ function modJson(id, newEntry) {
   json.id = newEntry
 }
 
-// Call as
-setUsername(3, "Thomas");
-
 /*
  * FONCTION : Envoie un message sur l'humidité
  * INPUT : destinataire
