@@ -56,9 +56,12 @@ function sendHumidity(sender) {
 	if (json.Thirst === 'ok' || json.Thirst === 'soif'){
 		if(json.Humidity === '0'){
 			sendTextMessage(sender, "mmh")
-			setTimeout( sendTextMessage(sender, "mmh mmh"); , 100);
-			setTimeout( sendTextMessage(sender, "Je crois que tu as oublié d'allumer l'appareil"); , 200);
-			setTimeout( sendTextMessage(sender, "O:)"); , 300);
+			sleep(100)
+			sendTextMessage(sender, "mmh mmh")
+			sleep(100)
+			sendTextMessage(sender, "Je crois que tu as oublié d'allumer l'appareil")
+			sleep(100)
+			sendTextMessage(sender, "O:)")
 		}
 		else{
 			sendTextMessage(sender, "Humidité "+json.Humidity+"%, je sèche misère! :O :beer:")
