@@ -11,6 +11,7 @@ let loicsender
 
 var humidity
 var state
+var content //used to read json file
 
 /*store data into Json file when the server automatically shut down
  * Humidity from 0 to 100%, Thirst : soif or else
@@ -38,6 +39,34 @@ app.get('/loic', function (req, res) {
 })
 
 /*
+ * FONCTION : Read Json file
+ * INPUT : what to read
+ * OUTPUT : content
+ */
+ fonction readJson(id){
+	fs.readFile('plant.json', function read(err, data) {
+		if (err) {
+			throw err;
+		}
+		content = data;
+		console.log(content);   // Put all of the code here (not the best solution)
+		return content.id;
+	});
+ }
+ 
+ /*
+ * FONCTION : Write Json file
+ * INPUT : what to write
+ * OUTPUT : nothing
+ */
+ fonction writeFile(){
+	fs.writeFile("plant.json", JSON.stringify(json), function (err) {
+		if (err) return console.log(err);		
+		console.log('Wrote!');
+	});
+ }
+ 
+/*
  * FONCTION : Modify Json
  * INPUT : id, newEntry
  * OUTPUT : nothing
@@ -60,9 +89,11 @@ function sendHumidity(sender) {
 		sendTextMessage(sender, "O:)")
 	}
 	else if(json.Thirst === 'soif'){
+		sendTextMessage(sender, "Pss, la plante d'à côté est un vrai trou!")
 		sendTextMessage(sender, "Humidité "+json.Humidity+"%, vite de l'eau, de l'eau! :) :beer:")
 	}
 	else if(json.Thirst === 'ok'){
+		sendTextMessage(sender, "tout coule...euh tout roule pour moi ;)")
 		sendTextMessage(sender, "Humidité "+json.Humidity+"%, j'ai pas encore soif!")
 	}
 	else{
@@ -72,16 +103,22 @@ function sendHumidity(sender) {
 
 // Receive the data from arduino and call sendHumidity
 app.post('/senddata/', function (req, res) {
+	
+	//store request data into variables
 	humidity = req.body.Body
-	modJson('Humidity', humidity)
+	modJson('Humidity', humidity) //insert data into Json file
 	state = req.body.State
-	modJson('Thirst', state)
-	fs.writeFile( "filename.json", JSON.stringify( json ), "utf8", yourCallback );
+	modJson('Thirst', state) //insert data into Json file
+	
+	writeJson() //write Json file
+	
 	console.log("Session: %j", json);
 	console.log("Session: %j", req.body);
-	sendHumidity(loicsender)
-	//sendTextMessage(loicsender, "Humidité de " + req.body.Body+"%")
-    res.set('Content-Type', 'text/plain')
+	
+	sendHumidity(loicsender) //alert user if plant require watering
+    
+	//respond to post request from arduino by a post request.
+	res.set('Content-Type', 'text/plain')
     res.send("received: "+req.body.Body)
 
 })
