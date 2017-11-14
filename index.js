@@ -58,8 +58,8 @@ app.get('/loic', function (req, res) {
  * INPUT : what to write
  * OUTPUT : nothing
  */
- function writeJson(){
-	fs.writeFile("./json.json", JSON.stringify(json), function (err) {
+ function writeJson(jsondata){
+	fs.writeFile("./json.json", JSON.stringify(jsondata), function (err) {
 		if (err) return console.log(err);		
 		console.log('File written!');
 	});
@@ -121,15 +121,14 @@ function sendHumidity(sender) {
 app.post('/senddata/', function (req, res) {
 	
 	//store request data into variables
-	humidity = req.body.Body
+	humidity = req.body.Humidity
 	modJson('Humidity', humidity) //insert data into Json file
-	state = req.body.State
+	state = req.body.Thirst
 	modJson('Thirst', state) //insert data into Json file
 	
-	writeJson() //write Json file
+	writeJson(req.body) //write Json file
 	
-	console.log("Session: %j", json);
-	console.log("Session: %j", req.body);
+	console.log("got from esp32: %j", req.body);
 	
 	SendHumidityRead(loicsender) //alert user if plant require watering
     
