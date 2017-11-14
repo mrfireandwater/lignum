@@ -44,12 +44,12 @@ app.get('/loic', function (req, res) {
  * OUTPUT : content
  */
  function readJson(){
-	fs.readFile('plant.json', function read(err, data) {
+	fs.readFile('json.json', function read(err, data2) {
 		if (err) {
 			throw err;
 		}
-		content = data;
-		console.log(content);   // Put all of the code here (not the best solution)
+		content = data2;
+		console.log("readJson says: "+content);   // Put all of the code here (not the best solution)
 	});
  }
  
@@ -97,14 +97,12 @@ function modJson(id, newEntry) {
  * OUTPUT : rien
  */
 function sendHumidity(sender) {
-	console.log("Session: %j", json);
 	console.log("humidité: "+content.Humidity)
 	if (content.Humidity === '0'){
 		sendTextMessage(sender, "mmh")
 		sendTextMessage(sender, "mmh mmh")
 		sendTextMessage(sender, "Je crois que tu as oublié d'allumer l'appareil")
 		sendTextMessage(sender, "O:)")
-		sendTextMessage(sender, "Humidité "+content.Humidity+"%, vite de l'eau, de l'eau! :) :beer:")
 	}
 	else if(content.Thirst === 'soif'){
 		sendTextMessage(sender, "Pss, la plante d'à côté est un vrai trou!")

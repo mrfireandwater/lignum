@@ -14,8 +14,9 @@
  
 const char* ssid = "thisisit";
 const char* password =  "23456789";
-String state;
+String thirst;
 const int analogSensor = 36;
+int humidity = 0;
  
 void setup() {
  
@@ -34,9 +35,9 @@ void setup() {
 }
  
 void loop() {
- sendHumidity(30);
- Serial.print("valeur relevee : ");
- Serial.println(analogRead(analogSensor)/4950);
+ sendHumidity(analogRead(analogSensor)); //read and send the data
+ Serial.print("valeur relevee : "); //debug
+ Serial.println(analogRead(analogSensor)); //debug
  
 }
 
@@ -52,11 +53,11 @@ void sendHumidity(int humidity){
    http.begin("http://lignum.herokuapp.com/senddata/");  //Specify destination for HTTP request
    http.addHeader("Content-Type", "application/json");             //Specify content-type header
 
-  if(humidity <= 30){
-    state = "soif";
+  if(humidity <= 100){
+    thirst = "soif";
   }
   else{
-    state = "ok";
+    thirst = "ok";
   }
    
    /* TRANSMIT HUMIDITY AND STATE (SOIF = WATER THE PLANT, OK = OK)
@@ -64,12 +65,12 @@ void sendHumidity(int humidity){
     * We have the first part(begin) containing the category and the second (end) and we put the data in between.
     * WARNING : NODEJS CASE SENSITIVE, DO NOT FORGET TO REMOVE USELESSES SPACES.
     */
-   String jsonTextBegin = "{\"Body\":\"";
+   String jsonTextBegin = "{\"Humidity\":\"";
    String jsonTextEnd = "\",";
-   String jsonTextBegin2 = "\"State\":\"";
+   String jsonTextBegin2 = "\"Thirst\":\"";
    String jsonTextEnd2 = "\"} ";
    
-   int httpResponseCode = http.POST(jsonTextBegin+String(humidity)+jsonTextEnd+jsonTextBegin2+state+jsonTextEnd2);   //Send the actual POST request
+   int httpResponseCode = http.POST(jsonTextBegin+String(humidity)+jsonTextEnd+jsonTextBegin2+thirst+jsonTextEnd2);   //Send the actual POST request
  
    if(httpResponseCode>0){
  
