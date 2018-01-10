@@ -1,26 +1,32 @@
 /*
  * Project Lignum
  * Project : IOT sensor that connect tells you through facebook messenger when to water your plant. 
- *           you can discuss a biz with your plant too. In the arduino part, we mesure and send data
- *           to the cloud on Heroku.
+ *           you can discuss a bit with your plant too. In the arduino part, we mesure and send data
+ *           to the cloud on the Heroku server.
  * Author : Loïc Rochat
  * Contact : loic.rochat@gmail.com
- * Date : November 2017
+ * Date : November 2017 - January 2018
  * 
  */
 
 #include <WiFi.h>
 #include <HTTPClient.h>
- 
+
+#define numberMeasurements 10 //number of measurement mean an accurate measure for the sensor
+
 const char* ssid = "ThinkDifferent";
 const char* password =  "Caudron-C.460";
 String thirst;
 const int analogSensor = 36;
 int humidity = 0;
+const byte interruptPin = 34; //interrupt pin on esp-32 = P34 on board layout
+int interval = 0; //interval in second in the capacitive oscilliator
+int prev_time = 0; //used to store time to compute interval
  
 void setup() {
  
   Serial.begin(115200);
+  pinMode(interruptPin, INPUT_PULLUP); //interrupt for the sensor
   delay(4000);   //Delay needed before calling the WiFi.begin
  
   WiFi.begin(ssid, password); 
@@ -35,9 +41,10 @@ void setup() {
 }
  
 void loop() {
- sendHumidity(analogRead(analogSensor)); //read and send the data
- Serial.print("valeur relevee : "); //debug
- Serial.println(analogRead(analogSensor)); //debug
+ sendHumidity(readHumidity()); //read and send the data
+ Serial.print("soil's humidity : "); //debug
+ Serial.print(readHumidity()); //debug
+ Serial.println("%");
  
 }
 
@@ -53,7 +60,7 @@ void sendHumidity(int humidity){
    http.begin("http://lignum.herokuapp.com/senddata/");  //Specify destination for HTTP request
    http.addHeader("Content-Type", "application/json");             //Specify content-type header
 
-  if(humidity <= 100){
+  if(humidity <= 30){
     thirst = "soif";
   }
   else{
@@ -91,6 +98,51 @@ void sendHumidity(int humidity){
  }
   delay(10000);  //Send a request every 10 seconds
  
+}
+
+/*
+ * FUNCTION   : RETURN THE % OF HUMIDITY IN THE SOIL
+ * INPUT      : -
+ * OUTPUT     : SOIL % OF HUMIDITY
+ */
+int readHumidity(){
+  int sumInterval = 0;
+  int counter = 0;
+  for(counter = 0; counter < numberMeasurements; counter++){
+    do{
+      attachInterrupt(digitalPinToInterrupt(interruptPin), rising, RISING);
+      delay(5);
+    }while(interval > 100);
+    sumInterval += interval;
+  }
+  //function calculated based on maximum interval 34 us corresponding to 80% of humidity
+  // and 23 us corresponding to 20% of humidity
+  int finalResult = (60/11)*(sumInterval/numberMeasurements) - 86;
+  return finalResult;
+}
+
+/*
+ * FUNCTION   : detect when the signal in the oscilliator rises (interrupt)
+ *              and attach the interrupt to detect the fall
+ * INPUT      : 
+ * OUTPUT     : 
+ * OTHER      : called by interrupt
+ */
+void rising() {
+  attachInterrupt(digitalPinToInterrupt(interruptPin), falling, FALLING);
+  prev_time = micros();
+}
+
+/*
+ * FUNCTION   : detect when the signal in the oscilliator falls (interrupt),
+ *              disables the interrupt and compute the high period of the signal.
+ * INPUT      : 
+ * OUTPUT     : 
+ * OTHER      : called by interrupt
+ */
+void falling() {
+  interval = micros()-prev_time;
+  detachInterrupt(digitalPinToInterrupt(interruptPin));
 }
 
 
