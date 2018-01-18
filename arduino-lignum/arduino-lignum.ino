@@ -12,23 +12,30 @@
 #include <WiFi.h>
 #include <HTTPClient.h>
 
-#define numberMeasurements 10 //number of measurement mean an accurate measure for the sensor
+#define numberMeasurements 10 //number of measurement to do for one result (more precision)
 
+//wifi
 const char* ssid = "ThinkDifferent";
 const char* password =  "Caudron-C.460";
+
+//data sent
 String thirst;
-const int analogSensor = 36;
 int humidity = 0;
+
+//measurements
 const byte interruptPin = 34; //interrupt pin on esp-32 = P34 on board layout
 int interval = 0; //interval in second in the capacitive oscilliator
 int prev_time = 0; //used to store time to compute interval
+
+int waiting = 120; //number of seconds between two measurements
  
 void setup() {
  
   Serial.begin(115200);
   pinMode(interruptPin, INPUT_PULLUP); //interrupt for the sensor
   delay(4000);   //Delay needed before calling the WiFi.begin
- 
+
+ //try to connect to the wifi
   WiFi.begin(ssid, password); 
   delay(2000);
   while (WiFi.status() != WL_CONNECTED) { //Check for the connection
@@ -42,6 +49,8 @@ void setup() {
  
 void loop() {
  sendHumidity(readHumidity()); //read and send the data
+ delay(waiting*1000);  //delay between two call to sendHumidity()
+ 
  Serial.print("soil's humidity : "); //debug
  Serial.print(readHumidity()); //debug
  Serial.println("%");
@@ -55,10 +64,10 @@ void loop() {
  */ 
 void sendHumidity(int humidity){
   if(WiFi.status()== WL_CONNECTED){   //Check WiFi connection status
-   
-   HTTPClient http; //declare http object 
-   http.begin("http://lignum.herokuapp.com/senddata/");  //Specify destination for HTTP request
-   http.addHeader("Content-Type", "application/json");             //Specify content-type header
+    
+    HTTPClient http; //declare http object 
+    http.begin("http://lignum.herokuapp.com/senddata/");  //Specify destination for HTTP request
+    http.addHeader("Content-Type", "application/json");             //Specify content-type header
 
   if(humidity <= 30){
     thirst = "soif";
@@ -80,24 +89,20 @@ void sendHumidity(int humidity){
    int httpResponseCode = http.POST(jsonTextBegin+String(humidity)+jsonTextEnd+jsonTextBegin2+thirst+jsonTextEnd2);   //Send the actual POST request
  
    if(httpResponseCode>0){
- 
     String response = http.getString(); //Get the response to the request
     Serial.println(httpResponseCode);   //Print return code
     Serial.println(response);           //Print request answer
    }
-   else{
-    
+   else{ 
     Serial.print("Error on sending POST: ");
     Serial.println(httpResponseCode);
    }
+   
    http.end();  //Free resources
- 
- }
+ }//end if wifi connected
  else{
     Serial.println("Error in WiFi connection");   
- }
-  delay(10000);  //Send a request every 10 seconds
- 
+ } 
 }
 
 /*
@@ -108,6 +113,10 @@ void sendHumidity(int humidity){
 int readHumidity(){
   int sumInterval = 0;
   int counter = 0;
+  /*
+   * The loop activate the interrupt that will perform the measure.
+   * It will loop numberMeasurements times
+   */
   for(counter = 0; counter < numberMeasurements; counter++){
     do{
       attachInterrupt(digitalPinToInterrupt(interruptPin), rising, RISING);
@@ -118,6 +127,12 @@ int readHumidity(){
   //function calculated based on maximum interval 34 us corresponding to 80% of humidity
   // and 23 us corresponding to 20% of humidity
   int finalResult = (60/11)*(sumInterval/numberMeasurements) - 86;
+  
+  //in case the humidity if a little bit above 100% which may happens depending on the soil's type.
+  if(finalResult > 100)
+    finalResult = 100;
+  else;
+  
   return finalResult;
 }
 

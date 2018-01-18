@@ -1,5 +1,16 @@
 'use strict'
 
+/*
+* FUNCTION : 	Server that handle HTTP request from Facebook Messenger and an IOT device.
+				It analyse the data and responds accordingly.
+				Written in NodeJS. Hosted on Heroku
+* AUTHOR   :	Loïc Rochat
+* CONTACT  : 	loic.rochat@gmail.com%2FlignumLabs%2Fvideos%2F329335957535056%2F
+* DATE 	   :    November 2017 to January 2018
+*
+*/
+
+
 const express = require('express')
 const bodyParser = require('body-parser')
 const request = require('request')
@@ -92,9 +103,9 @@ function modJson(id, newEntry) {
  }
  
  /*
- * FONCTION : Envoie un message sur l'humidité
- * INPUT : destinataire
- * OUTPUT : rien
+ * FONCTION : Select a message to be sent to user
+ * INPUT : user ID
+ * OUTPUT : -
  */
 function sendHumidity(sender) {
 	console.log("humidité: "+content.Humidity)
@@ -117,7 +128,12 @@ function sendHumidity(sender) {
 	}
 }
 
-// Receive the data from arduino and call sendHumidity
+// 
+/*
+ * FONCTION : Receive the data from arduino and call sendHumidity
+ * INPUT : -
+ * OUTPUT : -
+ */
 app.post('/senddata/', function (req, res) {
 	
 	//store request data into variables
@@ -152,6 +168,12 @@ app.listen(app.get('port'), function() {
 	console.log('running on port', app.get('port'))
 })
 
+/*
+ * FONCTION : Receive message from facebook and select answer to give
+ * INPUT : -
+ * OUTPUT : -
+ * OTHER : launch automatically when called
+ */
 app.post('/webhook/', function (req, res) {
     let messaging_events = req.body.entry[0].messaging
     for (let i = 0; i < messaging_events.length; i++) {
@@ -228,7 +250,12 @@ function sendTextMessage(sender, text) {
 	    }
     })
 }
-
+/*
+ * FONCTION : send a picture
+ * INPUT : -
+ * OUTPUT : -
+ * OTHER : -
+ */
 function sendMedia(sender) {
     let messageData = {
 		"attachment": {
@@ -261,6 +288,12 @@ function sendMedia(sender) {
     })
 }
 
+/*
+ * FONCTION : send a Generic message
+ * INPUT : user ID
+ * OUTPUT : -
+ * OTHER : -
+ */
 function sendGenericMessage(sender) {
     let messageData = {
 	    "attachment": {
@@ -310,7 +343,12 @@ function sendGenericMessage(sender) {
     })
 }
 
-//bouton get started au bot :
+/*
+ * FONCTION : Get startet button appearing on facebook messenger
+ * INPUT : data
+ * OUTPUT : -
+ * OTHER : -
+ */
 function setupGetStartedButton(res){
         var messageData = {
                 "get_started":[
